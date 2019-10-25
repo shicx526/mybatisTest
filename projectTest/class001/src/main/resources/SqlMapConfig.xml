@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--    加载属性文件-->
+    <properties resource="db.properties">
+        <!--在properties标签中还可以配置一些属性名和属性值,建议不要这样做，都定义在properties文件中，properties文件中的属性名尽量有特殊性-->
+        <!--        <property name="" value=""/>-->
+    </properties>
+    <!--    全局配置参数，需要时再用-->
+    <!--<settings>-->
+    <!--    <setting name="" value=""/>-->
+    <!--</settings>-->
+
+    <!--    别名定义-->
+    <typeAliases>
+        <!--        &lt;!&ndash;        针对单个别名定义-->
+        <!--        type：类型定义；alias：别名-->
+        <!--        &ndash;&gt;-->
+        <!--        <typeAlias type="com.scx.mybatis.po.User" alias="user"/>-->
+
+        <!--        批量别名定义
+        指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名，首字母大写或小写都行
+        -->
+        <package name="com.scx.mybatis"/>
+    </typeAliases>
+
+    <!-- 和spring整合后 environments配置将废除-->
+    <environments default="development">
+        <environment id="development">
+            <!-- 使用jdbc事务管理,事物控制在未与spring整合时由mybatis控制-->
+            <transactionManager type="JDBC"/>
+            <!-- 数据库连接池，暂时由mybatis管理-->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--加载映射文件-->
+    <mappers>
+        <mapper resource="sqlmap/User.xml"/>
+<!--&lt;!&ndash;        通过resource加载单个映射文件&ndash;&gt;-->
+<!--        <mapper resource="mapper/UserMapper.xml"/>-->
+
+<!--&lt;!&ndash;        通过mapper接口加载映射文件-->
+<!--            遵守一些规范：需将mapper接口的类型和mapper.xml映射文件名保持一致，且在一个目录-->
+<!--            上边规范的前提是：使用的是mapper代理方法-->
+<!--            需要将mapper.java mapper.xml放在同一个目录，且同名。这里是从resources下的mapper文件夹移动到java.com.scx.mybatis.mapper&ndash;&gt;-->
+        <mapper class="com.scx.mybatis.mapper.UserMapper"/>
+
+<!--        批量加载mapper
+            指定mapper接口包名，mybatis自动扫描下边所有mapper接口进行加载
+            遵守一些规范：需将mapper接口的类型和mapper.xml映射文件名保持一致，且在一个目录
+            上边规范的前提是：使用的是mapper代理方法  推荐使用-->
+<!--        <package name="com.scx.mybatis.mapper"/>-->
+    </mappers>
+</configuration>
