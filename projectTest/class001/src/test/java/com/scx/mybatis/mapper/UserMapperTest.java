@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -37,25 +38,69 @@ public class UserMapperTest {
         //创建UserMapper对象,mybatis自动生成mapper代理对象
         UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
         //调用userMapper的方法
-        userMapper.deleteUser(28);
+        userMapper.findUserById(28);
 
 //        System.out.println("user = " + user);
     }
 
-//    @Test
-//    public void findUserList() throws Exception {
-//        SqlSession sqlSession = sqlSessionFactory.openSession();
-//        //创建UserMapper对象,mybatis自动生成mapper代理对象
-//        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-//        //创建包装对象
-//        UserQueryVo userQueryVo = new UserQueryVo();
-//        UserCustom userCustom = new UserCustom();
-//        userCustom.setSex("1");
-//        userCustom.setUsername("张三丰");
-//        userQueryVo.setUserCustom(userCustom);
-//        //调用userMapper的方法
-//        List<UserCustom> userCustomList = userMapper.findUserList(userQueryVo);
-//
-//        System.out.println("userCustomList = " + userCustomList);
-//    }
+    @Test
+    public void findUserByIdResultMap() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //创建UserMapper对象,mybatis自动生成mapper代理对象
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        //调用userMapper的方法
+        User user = userMapper.findUserByIdResultMap(25);
+
+        System.out.println("user = " + user);
+
+        sqlSession.close();
+    }
+
+    @Test
+    public void findUserList() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //创建UserMapper对象,mybatis自动生成mapper代理对象
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        //创建包装对象
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+        //由于这里使用动态sql，如果不设置某个值，条件不会拼接在sql中
+//		userCustom.setSex("1");
+        userCustom.setUsername("王");
+        List<Integer> ids = new ArrayList<Integer>();
+        ids.add(1);
+        ids.add(2);
+        ids.add(10);
+        userQueryVo.setIds(ids);
+//        List<String> sexs = new ArrayList<String>();
+//        sexs.add("1");
+//        sexs.add("2");
+//        userQueryVo.setSexs(sexs);
+        userQueryVo.setUserCustom(userCustom);
+        //调用userMapper的方法
+        List<UserCustom> userCustomList = userMapper.findUserList(userQueryVo);
+
+        System.out.println("userCustomList = " + userCustomList);
+
+        sqlSession.close();
+    }
+
+    @Test
+    public void findUserCount() throws Exception {
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+        //创建UserMapper对象,mybatis自动生成mapper代理对象
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+        //创建包装对象
+        UserQueryVo userQueryVo = new UserQueryVo();
+        UserCustom userCustom = new UserCustom();
+        userCustom.setSex("1");
+        userCustom.setUsername("张");
+        userQueryVo.setUserCustom(userCustom);
+        //调用userMapper的方法
+        int count = userMapper.findUserCount(userQueryVo);
+
+        System.out.println("count = " + count);
+
+        sqlSession.close();
+    }
 }

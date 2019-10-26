@@ -50,12 +50,12 @@
 <!--            遵守一些规范：需将mapper接口的类型和mapper.xml映射文件名保持一致，且在一个目录-->
 <!--            上边规范的前提是：使用的是mapper代理方法-->
 <!--            需要将mapper.java mapper.xml放在同一个目录，且同名。这里是从resources下的mapper文件夹移动到java.com.scx.mybatis.mapper&ndash;&gt;-->
-        <mapper class="com.scx.mybatis.mapper.UserMapper"/>
+<!--        <mapper class="com.scx.mybatis.mapper.UserMapper"/>-->
 
 <!--        批量加载mapper
             指定mapper接口包名，mybatis自动扫描下边所有mapper接口进行加载
             遵守一些规范：需将mapper接口的类型和mapper.xml映射文件名保持一致，且在一个目录
             上边规范的前提是：使用的是mapper代理方法  推荐使用-->
-<!--        <package name="com.scx.mybatis.mapper"/>-->
+        <package name="com.scx.mybatis.mapper"/>
     </mappers>
 </configuration>
